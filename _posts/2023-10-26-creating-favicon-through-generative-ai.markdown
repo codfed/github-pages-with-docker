@@ -105,6 +105,7 @@ That's not gonna work. Too busy.
 ![favicon version 7]({{ site.url }}/github-pages-with-docker/assets/images/favicon-generation-7.png)
 
 These are going down hill. They were a lot better before I was saying I was a software engineer or creative type. I'm gonna remove that and be more direct.
+
 ---
 
 **Prompt**
