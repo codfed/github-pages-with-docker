@@ -14,12 +14,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Cody Feda
-email: cjfeda@example.com
+email: cjfeda@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Github pages sandbox.
 baseurl: "/github-pages-with-docker" # the subpath of your site, e.g. /blog
 url: "https://codfed.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: codfed
+#twitter_username: codfed
 github_username:  codfed
 
 # Build settings

@@ -1,0 +1,11 @@
+make favicon
+format pictures to stand out better
+build home page
+train model and link to it
+Clean up github repo
+Add command notes to github repo
+-cmd+shift+p
+--git commit
+--git push 
+-terminal window
+--bundle exec jekyll serve --livereload

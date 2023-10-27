@@ -21,7 +21,7 @@ It worked when I wanted to play around with `d3.js` 10 years ago with [mapsonmap
 
 I set up a new github page as a sandbox. I was following a tutorial. Blindly committing new formatting and pages. Gleefully watching the site update... until I wasn't. Until my page looked like this...
 
-<img src="{{ site.url }}/github-pages-with-docker/assets/gitub-pages-error.png" alt="drawing" width="650"/>
+<img src="{{ site.url }}/github-pages-with-docker/assets/images/github-pages-error.png" alt="drawing" width="650"/>
 
 
 Ok, how do I debug this??? I need to figure out how to run it locally. NBD, right? Well, it's not a small deal but the steps are simple if you know what they are. So I found this youtube video [Develop GitHub Pages locally in a Ubuntu Docker Container](https://www.youtube.com/watch?v=zijOXpZzdvs) by [Bill Raymond](https://dev.to/billraymond).
