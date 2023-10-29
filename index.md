@@ -4,4 +4,3 @@
 
 layout: home
 ---
-Here we are!!
