@@ -70,7 +70,6 @@ function callAPI(){
   fetch("https://catfact.ninja/fact")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json)
       document.getElementById("APIResponse").textContent=json["fact"];
     });  
 }
@@ -89,7 +88,6 @@ function callAPI(){
     fetch("https://catfact.ninja/fact")
       .then((response) => response.json())
       .then((json) => {
-        console.log(json)
         document.getElementById("APIResponse").textContent=json["fact"];
       });  
   }
