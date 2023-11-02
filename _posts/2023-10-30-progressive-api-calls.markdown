@@ -229,6 +229,43 @@ function callWikipediaAPI(){
   }
 </script>
 
+## Passing input to API
+
+We now know that we can write code to access APIs. Now we need to allow the end user to tweak how the page interacts with the website. This also introduces something we haven't had to worry about so far.... human error.
+
+<input type="text" id="DynamicWikipediaInput" >
+<button type="button" onclick="callDynamicWikipediaAPI()">
+  Search Wikipedia
+</button>
+
+<ul id="DynamicWikipediaAPIResponse">
+  <li>Links to relevant pages will appear here</li>
+</ul>
+
+<script>
+  function callDynamicWikipediaAPI(){
+    var query = document.getElementById("DynamicWikipediaInput").value;
+    var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch='" + query + "'";
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        var list = document.getElementById("DynamicWikipediaAPIResponse");
+        list.innerHTML = "";
+        for (var i in json.query.pages) {
+          let li = document.createElement('li');
+          let link = document.createElement('a');
+          
+          link.setAttribute('href',"http://en.wikipedia.org/?curid=" + json.query.pages[i].pageid);
+          link.setAttribute('target', '_blank');
+          link.innerText = json.query.pages[i].title;
+          
+          li.appendChild(link);
+          list.appendChild(li);
+        }
+      });  
+  }
+</script>
 
 <!-- ```html
 
