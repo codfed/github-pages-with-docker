@@ -24,46 +24,90 @@ But why? I used a very similar call in the previous post with no issues. After r
   Get 10 latest edits
 </button>
 
-<ul id="RecentChangesResponse">
+<ul id="recentChangesResponse">
   <li>Recent Edits</li>
 </ul>
 
+<table id="recentChangesTable">
+  <thead>
+    <th> Title </th>
+    <th> Comment </th>
+    <th> User </th>
+    <th> Revision diff </th>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
 <script>
   function getRecentChanges(){
-    var query = document.getElementById("RecentChangesResponse").value;
+
     var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&rctype=edit&rcprop=title|ids|rctype|comment|user|tags|flags&list=recentchanges&format=json";
     // var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch='ChatGPT'";
 
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        var list = document.getElementById("RecentChangesResponse");
+        var list = document.getElementById("recentChangesResponse");
         list.innerHTML = "";
         for (var i in json.query.recentchanges) {
-          let li = document.createElement('li');
-          let link = document.createElement('a');
-          let comment_span = document.createElement('span');
-          
-          link.setAttribute('href',"http://en.wikipedia.org/?curid=" + json.query.recentchanges[i].pageid);
-          link.setAttribute('target', '_blank');
-          link.innerText = json.query.recentchanges[i].title;
+          let title = json.query.recentchanges[i].title;
+          let pageid = json.query.recentchanges[i].pageid;
+          let comment = json.query.recentchanges[i].comment;
+          let user = json.query.recentchanges[i].user;
+          let old_revid = json.query.recentchanges[i].old_revid;
 
-
-          comment_span.innerText = "(" + json.query.recentchanges[i].comment + ")";
-          
-          li.appendChild(link);
-          li.appendChild(comment_span);
-          list.appendChild(li);
+          addRow(title, pageid, comment, user, old_revid);
         }
       });  
   }
+
+  function addRow(title, pageid, comments, user, old_revid) {
+    let table = document.getElementById("recentChangesTable");
+  
+    // Create a row using the inserRow() method and
+    // specify the index where you want to add the row
+    let row = table.insertRow(-1); // We are adding at the end
+  
+    // Create table cells
+    let c1 = row.insertCell(0);
+    let c2 = row.insertCell(1);
+    let c3 = row.insertCell(2);
+    let c4 = row.insertCell(3);
+
+    // Build page link
+    let pageLink = document.createElement('a');
+    
+    pageLink.setAttribute('href',"http://en.wikipedia.org/?curid=" + pageid);
+    pageLink.setAttribute('target', '_blank');
+    pageLink.innerText = title;
+
+    // Build revision link
+    let revisionURL = "https://en.wikipedia.org/w/index.php?title=" + title + "&diff=prev&oldid=" + old_revid
+    let revisionLink = document.createElement('a');
+
+    revisionLink.setAttribute('href', revisionURL);
+    revisionLink.setAttribute('target', '_blank');
+    revisionLink.innerText = "Revision Diff"; 
+//https://en.wikipedia.org/w/index.php?title=Anastasia_(1997_film)&diff=prev&oldid=1183171127
+  //  ?title=Anastasia_(1997_film)&diff=prev&oldid=1183171127
+
+    // Add data to c1 and c2
+    c1.appendChild(pageLink);
+    c2.innerText = comments;
+    c3.innerText = user;
+    c4.appendChild(revisionLink);
+   }
 </script>
 
 This actually came to fruition quicker than I had expected. The next few things I want to do are:
 
 - Be more specific in query, to only get vandalism
-- Create a link to the difference they reverted
+-- only get vandalism
+-- only get banned users
 - Rework display of data as this list has quickly become too complex for this simple approach
+
+- Make user profile page
 
 <!-- ```html
 
