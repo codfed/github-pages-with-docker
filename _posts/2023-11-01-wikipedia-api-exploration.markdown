@@ -20,14 +20,6 @@ Only one problem... when I run that request through javascript I get this error:
 
 But why? I used a very similar call in the previous post with no issues. After reviewing the queries side by side, I noticed I did not include the `origin=&` parameter. Once I added that I was back on my way!
 
-<button type="button" onclick="getRecentChanges()">
-  Get 10 latest edits
-</button>
-
-<ul id="recentChangesResponse">
-  <li>Recent Edits</li>
-</ul>
-
 <table id="recentChangesTable">
   <thead>
     <th> Title </th>
@@ -39,6 +31,10 @@ But why? I used a very similar call in the previous post with no issues. After r
   </tbody>
 </table>
 
+<button type="button" onclick="getRecentChanges()">
+  Get 10 latest edits
+</button>
+
 <script>
   function getRecentChanges(){
 
@@ -48,8 +44,6 @@ But why? I used a very similar call in the previous post with no issues. After r
     fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        var list = document.getElementById("recentChangesResponse");
-        list.innerHTML = "";
         for (var i in json.query.recentchanges) {
           let title = json.query.recentchanges[i].title;
           let pageid = json.query.recentchanges[i].pageid;
@@ -102,12 +96,16 @@ But why? I used a very similar call in the previous post with no issues. After r
 
 This actually came to fruition quicker than I had expected. The next few things I want to do are:
 
-- Be more specific in query, to only get vandalism
--- only get vandalism
--- only get banned users
-- Rework display of data as this list has quickly become too complex for this simple approach
+- SPECIFIC QUERY
+- only vandalism
+- only banned users
+(25 most recent blocks) https://www.mediawiki.org/w/api.php?action=query&format=json&list=blocks&formatversion=2&bkdir=older&bklimit=25
 
 - Make user profile page
+
+- Play around with a react app to display data
+
+
 
 <!-- ```html
 
