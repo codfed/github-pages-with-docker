@@ -37,9 +37,9 @@ But why? I used a very similar call in the previous post with no issues. After r
 
 <script>
   function getRecentChanges(){
+    document.getElementById('recentChangesTable').innerHTML = '';
 
     var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&rctype=edit&rcprop=title|ids|rctype|comment|user|tags|flags&list=recentchanges&format=json";
-    // var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&format=json&generator=search&gsrnamespace=0&gsrlimit=5&gsrsearch='ChatGPT'";
 
     fetch(url)
       .then((response) => response.json())
@@ -51,12 +51,12 @@ But why? I used a very similar call in the previous post with no issues. After r
           let user = json.query.recentchanges[i].user;
           let old_revid = json.query.recentchanges[i].old_revid;
 
-          addRow(title, pageid, comment, user, old_revid);
+          addChangesRow(title, pageid, comment, user, old_revid);
         }
       });  
   }
 
-  function addRow(title, pageid, comments, user, old_revid) {
+  function addChangesRow(title, pageid, comments, user, old_revid) {
     let table = document.getElementById("recentChangesTable");
   
     // Create a row using the inserRow() method and
@@ -91,6 +91,89 @@ But why? I used a very similar call in the previous post with no issues. After r
     c2.innerText = comments;
     c3.innerText = user;
     c4.appendChild(revisionLink);
+   }
+</script>
+
+
+<table id="recentBlocksTable">
+  <thead>
+    <th> User </th>
+    <th> Reason </th>
+    <th> Expiry </th>
+    <th>  </th>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<button type="button" onclick="getRecentBlocks()">
+  Get 500 latest blocks
+</button>
+
+<script>
+  function getRecentBlocks(){
+    document.getElementById('recentBlocksTable').innerHTML = '';
+
+    var url = "https://en.wikipedia.org/w/api.php?action=query&origin=*&list=blocks&formatversion=2&bkdir=older&bklimit=500&format=json";
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        for (var i in json.query.blocks) {
+          let user = json.query.blocks[i].user;
+          let reason = json.query.blocks[i].reason;
+          let expiry = json.query.blocks[i].expiry;
+          let by = json.query.blocks[i].by;
+          // let old_revid = json.query.blocks[i].old_revid;
+
+          addBlockRow(user, reason, expiry, by);
+        }
+      });  
+  }
+
+  function addBlockRow(user, reason, expiry, by) {
+    let table = document.getElementById("recentBlocksTable");
+  
+    // Create a row using the inserRow() method and
+    // specify the index where you want to add the row
+    let row = table.insertRow(-1); // We are adding at the end
+  
+    // Create table cells
+    let c1 = row.insertCell(0);
+    let c2 = row.insertCell(1);
+    let c3 = row.insertCell(2);
+    let c4 = row.insertCell(3);
+
+    // Build user page link
+    let userPageLink = document.createElement('a');
+    
+    userPageLink.setAttribute('href',"http://en.wikipedia.org/wiki/User:" + user);
+    userPageLink.setAttribute('target', '_blank');
+    userPageLink.innerText = user;
+
+    // Build by user page link
+    let byUserPageLink = document.createElement('a');
+    
+    byUserPageLink.setAttribute('href',"http://en.wikipedia.org/wiki/User:" + by);
+    byUserPageLink.setAttribute('target', '_blank');
+    byUserPageLink.innerText = by;
+
+    // Build revision link
+    // let revisionURL = "https://en.wikipedia.org/w/index.php?title=" + title + "&diff=prev&oldid=" + old_revid
+    // let revisionLink = document.createElement('a');
+
+    // revisionLink.setAttribute('href', revisionURL);
+    // revisionLink.setAttribute('target', '_blank');
+    // revisionLink.innerText = "Revision Diff"; 
+//https://en.wikipedia.org/w/index.php?title=Anastasia_(1997_film)&diff=prev&oldid=1183171127
+  //  ?title=Anastasia_(1997_film)&diff=prev&oldid=1183171127
+
+    // Add data to c1 and c2
+    c1.appendChild(userPageLink);
+    c2.innerText = reason;
+    c3.innerText = expiry;
+    c4.appendChild(byUserPageLink);
+    // c4.appendChild(revisionLink);
    }
 </script>
 
